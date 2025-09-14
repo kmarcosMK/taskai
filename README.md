@@ -1,3 +1,3 @@
-TaskAI - Rich Next.js starter (expanded content)
+TaskAI — Next.js + Markdown Blog (ready for Vercel)
 
 Instrukcje: npm install && npm run dev
