@@ -1,66 +1,137 @@
-import Head from 'next/head'
-import Link from 'next/link'
-import { getSortedPostsMeta } from '../lib/posts'
+import Link from "next/link";
+import Script from "next/script";
 
-export async function getStaticProps(){
-  const posts = getSortedPostsMeta()
-  return { props: { posts } }
-}
-
-export default function Home({posts}){
+export default function Home() {
   return (
-    <div className="page">
-      <Head><title>TaskAI – AI w zadaniach i produktywności</title></Head>
-      <header className="header">
-        <div className="container">
-          <h1 className="logo">TaskAI</h1>
-          <nav className="nav">
-            <a href="/">Start</a>
-            <a href="/blog">Blog</a>
-            <a href="/about">O nas</a>
-            <a href="/contact">Kontakt</a>
+    <div className="min-h-screen flex flex-col bg-gray-50 text-gray-900">
+      {/* Google Analytics */}
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"
+        strategy="afterInteractive"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-XXXXXXXXXX');
+        `}
+      </Script>
+
+      {/* Główny header */}
+      <header className="bg-white shadow-md">
+        <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+          <h1 className="text-2xl font-bold text-gray-900">TaskAI</h1>
+          <nav className="space-x-6">
+            <Link href="/" className="hover:text-blue-600 font-medium">
+              Strona główna
+            </Link>
+            <Link href="/blog" className="hover:text-blue-600 font-medium">
+              Blog
+            </Link>
+            <Link href="/about" className="hover:text-blue-600 font-medium">
+              O nas
+            </Link>
           </nav>
         </div>
       </header>
 
-      <section className="hero">
-        <div className="container">
-          <h2 style={{fontSize:28}}>AI, które pomaga wykonać pracę lepiej.</h2>
-          <p className="subtitle">Praktyczne artykuły i narzędzia dla osób i firm, które chcą automatyzować zadania i podnosić produktywność bez nadmiernego ryzyka.</p>
-          <div>
-            <a className="btn primary" href="/blog">Wejdź na Blog</a>
-            <a className="btn" href="/about">Dowiedz się więcej</a>
+      {/* Hero / Intro */}
+      <section className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 text-white">
+        <div className="max-w-5xl mx-auto px-6 py-24 text-center">
+          <h2 className="text-4xl md:text-5xl font-extrabold mb-6">
+            Inteligentne rozwiązania dla Twojej pracy
+          </h2>
+          <p className="text-lg md:text-xl text-gray-100 max-w-2xl mx-auto mb-8">
+            TaskAI pomaga w organizacji zadań, zarządzaniu projektami i
+            automatyzacji procesów dzięki sztucznej inteligencji.
+          </p>
+          <Link
+            href="/blog"
+            className="px-6 py-3 bg-white text-blue-700 font-semibold rounded-lg shadow-md hover:bg-gray-100 transition"
+          >
+            Przeczytaj artykuły
+          </Link>
+        </div>
+      </section>
+
+      {/* Sekcja z blogiem */}
+      <section className="bg-white py-16">
+        <div className="max-w-6xl mx-auto px-6">
+          <h3 className="text-3xl font-bold text-gray-900 mb-10 text-center">
+            Najnowsze wpisy na blogu
+          </h3>
+          <div className="grid gap-8 md:grid-cols-3">
+            <div className="p-6 border rounded-lg shadow-sm hover:shadow-md transition bg-gray-50">
+              <h4 className="text-xl font-semibold mb-2 text-blue-700">
+                Jak AI zmienia zarządzanie zadaniami
+              </h4>
+              <p className="text-gray-700 mb-4">
+                Sztuczna inteligencja rewolucjonizuje sposób, w jaki pracujemy.
+                Dowiedz się, jak narzędzia AI pomagają w codziennym planowaniu.
+              </p>
+              <Link
+                href="/blog/ai-zarzadzanie"
+                className="text-blue-600 font-medium hover:underline"
+              >
+                Czytaj więcej →
+              </Link>
+            </div>
+
+            <div className="p-6 border rounded-lg shadow-sm hover:shadow-md transition bg-gray-50">
+              <h4 className="text-xl font-semibold mb-2 text-blue-700">
+                Automatyzacja procesów w firmie
+              </h4>
+              <p className="text-gray-700 mb-4">
+                Automatyzacja to już nie przyszłość, ale teraźniejszość.
+                Sprawdź, jak Twoja firma może oszczędzić czas i koszty.
+              </p>
+              <Link
+                href="/blog/automatyzacja-procesow"
+                className="text-blue-600 font-medium hover:underline"
+              >
+                Czytaj więcej →
+              </Link>
+            </div>
+
+            <div className="p-6 border rounded-lg shadow-sm hover:shadow-md transition bg-gray-50">
+              <h4 className="text-xl font-semibold mb-2 text-blue-700">
+                Przyszłość pracy zdalnej
+              </h4>
+              <p className="text-gray-700 mb-4">
+                Remote work stała się normą. Jakie narzędzia i strategie
+                sprawiają, że zespoły rozproszone działają efektywnie?
+              </p>
+              <Link
+                href="/blog/przyszlosc-pracy-zdalnej"
+                className="text-blue-600 font-medium hover:underline"
+              >
+                Czytaj więcej →
+              </Link>
+            </div>
           </div>
         </div>
       </section>
 
-      <main>
-        <section className="section alt">
-          <div className="container">
-            <h3>Wybór redakcji</h3>
-            <div className="grid">
-              {posts.slice(0,3).map(p=> (
-                <article key={p.slug} className="card">
-                  <h4><Link href={'/blog/'+p.slug}><a style={{color:'#00ffe7'}}>{p.title}</a></Link></h4>
-                  <p style={{color:'#bbb'}}>{p.description}</p>
-                  <p style={{fontSize:12,color:'#999'}}>{p.date}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-      </main>
-
-      <footer className="footer">
-        <div className="container">
-          <p>© 2025 TaskAI.pl · Treści informacyjne. Częściowo generowane przy użyciu narzędzi AI.</p>
-          <div className="partner-links">
-            <a href="https://taskbot.pl" target="_blank" rel="noopener noreferrer">taskbot.pl</a>
-            <a href="https://ejep.pl" target="_blank" rel="noopener noreferrer">ejep.pl</a>
-            <a href="https://irobo.pl" target="_blank" rel="noopener noreferrer">irobo.pl</a>
+      {/* Stopka */}
+      <footer className="bg-gray-900 text-gray-300 py-6 mt-12">
+        <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
+          <p className="text-sm">
+            © {new Date().getFullYear()} TaskAI. Wszystkie prawa zastrzeżone.
+          </p>
+          <div className="space-x-4 mt-4 md:mt-0">
+            <a href="https://ejep.pl" className="hover:text-white">
+              ejep.pl
+            </a>
+            <a href="https://taskbot.pl" className="hover:text-white">
+              taskbot.pl
+            </a>
+            <a href="https://etuto.pl" className="hover:text-white">
+              etuto.pl
+            </a>
           </div>
         </div>
       </footer>
     </div>
-  )
+  );
 }
